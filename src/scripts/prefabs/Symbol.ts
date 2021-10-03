@@ -3,6 +3,8 @@ import { ISymbolConfig } from "../interfaces/ISymbolConfig";
 
 export class Symbol extends PIXI.Container {
 
+    public isSpinStarted : boolean = false;
+    public elapsedTime : number = 0.01;
     private configData! : ISymbolConfig 
     private symbolTextures : Array<string> = [
     "assets/images/symbols/symbol_1.png",
@@ -12,7 +14,7 @@ export class Symbol extends PIXI.Container {
     "assets/images/symbols/symbol_5.png",
     "assets/images/symbols/symbol_6.png",
     "assets/images/symbols/symbol_7.png",
-    "assets/images/symbols/symbol_8.png",]
+    "assets/images/symbols/symbol_8.png"];
 
     constructor(config : ISymbolConfig) {
         super();
@@ -34,5 +36,14 @@ export class Symbol extends PIXI.Container {
     private createSymbol() {
         const symbolSprite = new PIXI.Sprite(PIXI.Loader.shared.resources[this.symbolTextures[Math.floor(Math.random() * 8)]].texture)
         this.addChild(symbolSprite);
+    }
+
+    private spin() {
+        this.y = this.y + (1000 - this.y) * this.elapsedTime;
+    }
+
+    public update(time : number) {
+        if (!this.isSpinStarted) return;
+        this.spin();
     }
 }

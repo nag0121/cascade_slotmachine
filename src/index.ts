@@ -11,15 +11,10 @@ export class Game extends Application
             height : 920,
             antialias : true,
             autoDensity : true,
-            backgroundColor : 0x000000,
+            backgroundColor : 0x00ffff,
         })
 
         this.loadAssets();
-
-        window.addEventListener("resize", ()=>{
-            this.screen.width = window.innerWidth;
-            this.screen.height = window.innerHeight;
-        })
 
         this.ticker.add(this.update.bind(this));
     }
