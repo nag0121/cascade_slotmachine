@@ -6,6 +6,10 @@ export class Symbol extends PIXI.Container {
     public isSpinStarted : boolean = false;
     public elapsedTime : number = 0.01;
     private configData! : ISymbolConfig 
+    private initialPosition : any;
+    private symbolIndex : number;
+    private spinState : number;
+    private easeTargetPos : number = 678;
     private symbolTextures : Array<string> = [
     "assets/images/symbols/symbol_1.png",
     "assets/images/symbols/symbol_2.png",
@@ -16,11 +20,14 @@ export class Symbol extends PIXI.Container {
     "assets/images/symbols/symbol_7.png",
     "assets/images/symbols/symbol_8.png"];
 
-    constructor(config : ISymbolConfig) {
+    constructor(config : ISymbolConfig, index : number) {
         super();
         this.configData = config;
-        this.position.x = this.configData.position.x;
-        this.position.y = this.configData.position.y;
+        this.symbolIndex = index;
+        this.spinState = 0;
+        this.x = this.configData.position.x;
+        this.y = this.configData.position.y;
+        this.initialPosition = {x : this.x, y : this.y};
         this.createBoundingBox();
         this.createSymbol();
     }
@@ -39,7 +46,31 @@ export class Symbol extends PIXI.Container {
     }
 
     private spin() {
-        this.y = this.y + (1000 - this.y) * this.elapsedTime;
+        if (this.spinState == 0) {
+            this.stateOneSpin();
+        } else if (this.spinState == 1) {
+            this.stateTwoSpin();
+        }
+    }
+
+    private stateOneSpin() {
+        if (this.y - this.initialPosition.y >= this.easeTargetPos) {
+            this.isSpinStarted = false;
+            this.y = this.initialPosition.y - this.easeTargetPos;
+            this.spinState++;
+            return;
+        }
+        this.y = Math.floor(this.y + (this.easeTargetPos) * this.elapsedTime);
+    }
+
+    private stateTwoSpin() {
+        if (this.y >= this.initialPosition.y) {
+            this.isSpinStarted = false;
+            this.y = this.initialPosition.y;
+            this.spinState = 0;
+            return;
+        }
+        this.y = Math.floor(this.y + (this.easeTargetPos) * this.elapsedTime);
     }
 
     public update(time : number) {

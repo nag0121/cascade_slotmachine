@@ -4,27 +4,23 @@ import { Reel } from "./Reel";
 export class SlotMachine extends Container {
    
     private reels : Array<Reel> = [];
-    private reelsXoffset : number = 7;
-    private initialReelsXoffset : number = 6;
+    private reelsXoffset : number = 0;
+    private initialReelsXoffset : number = 0;
     private isSpinStarted : boolean = false;
 
     constructor() {
         super();
         this.setPosition();
+        this.createBoundingBox();
         const mask = this.createBoundingBox();
         this.createReels();
         this.mask = mask;
-
-        setTimeout(() => {
-            // this.isSpinStarted = true;
-            this.spinReel(0.02);
-        }, 5000);
     }
     
     private createBoundingBox() : Graphics {
         const graphic = new Graphics();
         graphic.beginFill(0x00ff00)
-        graphic.drawRect(0, 0, 1220, 708);
+        graphic.drawRect(0, 0, 1180, 678);
         graphic.endFill();
         this.addChild(graphic);
         return graphic;
@@ -41,7 +37,7 @@ export class SlotMachine extends Container {
         }
     }
 
-    private spinReel(time : number) : void {
+    public spinReel() : void {
         this.reels.forEach((reel, i) => {
             setTimeout(() => {
                 reel.spinReel();
