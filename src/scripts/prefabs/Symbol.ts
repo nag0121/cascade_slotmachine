@@ -1,5 +1,7 @@
+import { sound } from "@pixi/sound";
 import * as PIXI from "pixi.js";
 import { ISymbolConfig } from "../interfaces/ISymbolConfig";
+import { Reel } from "./Reel";
 
 export class Symbol extends PIXI.Container {
 
@@ -10,6 +12,7 @@ export class Symbol extends PIXI.Container {
     private symbolIndex : number;
     private spinState : number;
     private easeTargetPos : number = 678;
+    private reel! : Reel
     private symbolTextures : Array<string> = [
     "assets/images/symbols/symbol_1.png",
     "assets/images/symbols/symbol_2.png",
@@ -20,10 +23,11 @@ export class Symbol extends PIXI.Container {
     "assets/images/symbols/symbol_7.png",
     "assets/images/symbols/symbol_8.png"];
 
-    constructor(config : ISymbolConfig, index : number) {
+    constructor(config : ISymbolConfig, index : number, reel : Reel) {
         super();
         this.configData = config;
         this.symbolIndex = index;
+        this.reel = reel;
         this.spinState = 0;
         this.x = this.configData.position.x;
         this.y = this.configData.position.y;
@@ -68,6 +72,7 @@ export class Symbol extends PIXI.Container {
             this.isSpinStarted = false;
             this.y = this.initialPosition.y;
             this.spinState = 0;
+            this.reel.reelStopped();
             return;
         }
         this.y = Math.floor(this.y + (this.easeTargetPos) * this.elapsedTime);
