@@ -3,7 +3,7 @@ import { IReelConfig } from "../interfaces/IReelConfig";
 export const reel_config : IReelConfig = {
     position : {
         x : 0,
-        y : 15
+        y : 0
     }, 
     reelsCount : 5,
     reelWidth : 236,

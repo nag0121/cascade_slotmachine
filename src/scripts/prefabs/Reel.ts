@@ -4,9 +4,11 @@ import { Symbol } from "./Symbol";
 
 export class Reel extends PIXI.Container {
 
-    private configData! : IReelConfig 
-    private symbols! : Array<Symbol> 
-    private symbolYoffset : number = 2;
+    public isSpinStarted : boolean = false;
+    public configData! : IReelConfig 
+    public symbols : Array<Symbol> = [];
+    private symbolYoffset : number = 0;
+
     constructor(config : IReelConfig) {
         super();
         this.configData = config;
@@ -27,9 +29,9 @@ export class Reel extends PIXI.Container {
         const symbolsCount = this.configData.symbolConfig.totalSymbols;
         for (let i = 0; i < symbolsCount; i++) {
             const symbolConfig = Object.assign({}, this.configData.symbolConfig);
-            symbolConfig.position.y = (symbolConfig.symbolHeight + this.symbolYoffset) * i;
-            const symbol = new Symbol(symbolConfig);
-            this.symbols?.push(symbol);
+            symbolConfig.position.y = ((symbolConfig.symbolHeight + this.symbolYoffset) * i);
+            const symbol = new Symbol(symbolConfig, i);
+            this.symbols.push(symbol);
             this.addChild(symbol);
         }
     }
@@ -37,5 +39,18 @@ export class Reel extends PIXI.Container {
     private setPosition() {
         this.position.x = this.configData.position.x;
         this.position.y = this.configData.position.y;
+    }
+
+    public spinReel() : void {
+        this.symbols.forEach((symbol, index) => {
+            setTimeout(()=>{
+                symbol.isSpinStarted = true;
+                symbol.elapsedTime = (this.symbols.length - index) * 0.06;
+            }, (this.symbols.length - index) * 100); 
+        });
+    }
+
+    public update(deltaTime : number){
+        this.symbols.forEach(symbol => symbol.update(deltaTime));
     }
 }
