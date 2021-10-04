@@ -2,12 +2,13 @@ import { IBtnConfig } from "./interfaces/IBtnConfig";
 import { Button } from "./prefabs/Button";
 import { SlotMachine } from "./prefabs/SlotMachine";
 import * as PIXI from "pixi.js";
+import { sound, Sound } from "@pixi/sound";
 
 export class PlayButton extends Button {
 
     protected isDisabled : boolean = false;
     protected isPressed : boolean = false;
-    protected slotMachine! : SlotMachine     
+    protected slotMachine! : SlotMachine    
 
     constructor(config : IBtnConfig, slotMachine : SlotMachine) {
         super(config);
@@ -20,6 +21,7 @@ export class PlayButton extends Button {
         if (this.isDisabled) {
             return;
         }
+        sound.play("play");
         super.onPressed();
         this.isPressed = true;
     }
