@@ -54,19 +54,18 @@ export class Button extends PIXI.Container
     }
 
     protected onPressed() : void {
-        console.log("pressed", this.name);
         this.sprite.texture = PIXI.Texture.from(this.configData.spriteConfig.textures.clickedFrame);
     }
+    
     protected onPointerOut() : void {
-        console.log("disabled", this.name);
         this.sprite.texture = PIXI.Texture.from(this.configData.spriteConfig.textures.normalFrame);
     }
+    
     protected onReleased() : void {
-        console.log("released", this.name);
         this.sprite.texture = PIXI.Texture.from(this.configData.spriteConfig.textures.disabledFrame);
     }
+    
     protected onHover() : void {
-        console.log("on hover", this.name);
         this.sprite.texture = PIXI.Texture.from(this.configData.spriteConfig.textures.hoverFrame);
 
     }

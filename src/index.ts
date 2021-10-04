@@ -1,8 +1,9 @@
-import { Application, Loader, Sprite } from "pixi.js";
+import * as PIXI from "pixi.js";
 import { SlotMachine } from "./scripts/prefabs/SlotMachine";
 import { Button } from "./scripts/prefabs/Button";
 import { PlayButton } from "./scripts/PlayButton";
-export class Game extends Application
+import { Sound, sound } from "@pixi/sound";
+export class Game extends PIXI.Application
 {
     private slotMachine! : SlotMachine
     constructor(){
@@ -25,7 +26,7 @@ export class Game extends Application
 
     private loadAssets() : void 
     {
-        Loader.shared.add([
+        PIXI.Loader.shared.add([
             "assets/images/symbols/symbol_1.png",
             "assets/images/symbols/symbol_2.png",
             "assets/images/symbols/symbol_3.png",
@@ -37,7 +38,7 @@ export class Game extends Application
             "assets/images/ui/btn_spin_normal.png",
             "assets/images/ui/btn_spin_hover.png",
             "assets/images/ui/btn_spin_disabled.png",
-            "assets/images/ui/btn_spin_pressed.png"
+            "assets/images/ui/btn_spin_pressed.png",
         ])
         .load(this.onAssetsLoaded.bind(this))
     }
@@ -45,11 +46,10 @@ export class Game extends Application
     private onAssetsLoaded() : void
     {
         console.log("assets are loaded");
-
+        this.loadSounds();
         this.slotMachine = this.createSlotMachineView();
         const playButton = this.createPlayButton();
         
-
         this.stage.addChild(this.slotMachine, playButton);
     }
 
@@ -82,6 +82,15 @@ export class Game extends Application
         }, this.slotMachine);
 
         return playButton;
+    }
+
+    private loadSounds() {
+        sound.add("reel1", "assets/sounds/Reel_Stop_1.mp3");
+        sound.add("reel2", "assets/sounds/Reel_Stop_2.mp3");
+        sound.add("reel3", "assets/sounds/Reel_Stop_3.mp3");
+        sound.add("reel4", "assets/sounds/Reel_Stop_4.mp3");
+        sound.add("reel5", "assets/sounds/Reel_Stop_5.mp3");
+        sound.add("play", "assets/sounds/Start_Button.mp3");
     }
 
 }

@@ -31,7 +31,7 @@ export class SlotMachine extends Container {
         for (let i = 0; i < totalReels; i++) {
             const reelconfig= Object.assign({}, reel_config);
             reelconfig.position.x = ((reelconfig.reelWidth + this.reelsXoffset) * i) + this.initialReelsXoffset;
-            const reel = new Reel(reelconfig);
+            const reel = new Reel(reelconfig, i);
             this.reels.push(reel);
             this.addChild(reel);
         }
