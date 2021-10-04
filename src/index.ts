@@ -1,7 +1,7 @@
 import { Application, Loader, Sprite } from "pixi.js";
-import { Tween } from "@tweenjs/tween.js";
 import { SlotMachine } from "./scripts/prefabs/SlotMachine";
 import { Button } from "./scripts/prefabs/Button";
+import { PlayButton } from "./scripts/PlayButton";
 export class Game extends Application
 {
     private slotMachine! : SlotMachine
@@ -48,6 +48,7 @@ export class Game extends Application
 
         this.slotMachine = this.createSlotMachineView();
         const playButton = this.createPlayButton();
+        
 
         this.stage.addChild(this.slotMachine, playButton);
     }
@@ -58,7 +59,7 @@ export class Game extends Application
     }
 
     private createPlayButton() : Button {
-        const playButton = new Button({
+        const playButton = new PlayButton({
             position : {
                 x : 810,
                 y : 850
@@ -78,7 +79,7 @@ export class Game extends Application
                     y : -32
                 }
             }
-        });
+        }, this.slotMachine);
 
         return playButton;
     }

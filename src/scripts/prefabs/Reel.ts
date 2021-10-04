@@ -7,13 +7,13 @@ export class Reel extends PIXI.Container {
     public isSpinStarted : boolean = false;
     public configData! : IReelConfig 
     public symbols : Array<Symbol> = [];
-    private symbolYoffset : number = 2;
+    private symbolYoffset : number = 0;
 
     constructor(config : IReelConfig) {
         super();
         this.configData = config;
         this.setPosition();
-        // this.createBoundingBox();
+        this.createBoundingBox();
         this.createSymbols()
     }
 
@@ -29,8 +29,8 @@ export class Reel extends PIXI.Container {
         const symbolsCount = this.configData.symbolConfig.totalSymbols;
         for (let i = 0; i < symbolsCount; i++) {
             const symbolConfig = Object.assign({}, this.configData.symbolConfig);
-            symbolConfig.position.y = (symbolConfig.symbolHeight + this.symbolYoffset) * i;
-            const symbol = new Symbol(symbolConfig);
+            symbolConfig.position.y = ((symbolConfig.symbolHeight + this.symbolYoffset) * i);
+            const symbol = new Symbol(symbolConfig, i);
             this.symbols.push(symbol);
             this.addChild(symbol);
         }
